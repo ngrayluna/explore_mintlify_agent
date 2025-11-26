@@ -1,5 +1,13 @@
-"""Evaluator for correctness of generated answers using Mintlify agent."""
+"""Evaluate Mintlify agent responses using Anthropic judge model.
 
+This script reads in a dataset of user queries and generated responses,
+then uses an Anthropic LLM to evaluate the correctness of each response based
+on provided source documentation. The results are saved to a CSV file.
+
+Usage:
+    python evaluate_mint_agent.py --input_file <path_to_input_csv> --output_file <path_to_output_csv>
+"""
+import argparse
 from pydantic import BaseModel, Field
 from langchain.chat_models import init_chat_model
 import pandas as pd
@@ -196,15 +204,15 @@ class MintlifyCorrectnessEvaluator:
             )
         
 
-def main():
+def main(args):
 
     print("Starting evaluation...")
     api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
         raise ValueError("ANTHROPIC_API_KEY environment variable not set")
 
-    # Read in data: query and answer pairs
-    filename = "./ProcessedDatasets/english_only_responses.csv"
+    # Load dataset
+    filename = args.input_file
     data = pd.read_csv(filename)
 
     # Initialize evaluator
@@ -218,6 +226,7 @@ def main():
         max_retries=3
     )
 
+    # Evaluate each entry
     evaluation_results = []
     for index, row in data.iterrows():
         query = row["query"]
@@ -238,9 +247,16 @@ def main():
             contexts=contexts
         )
         evaluation_results.append(result)
-
+    
+    # Save results to CSV
     evaluation_df = pd.DataFrame([r.dict() for r in evaluation_results])
-    evaluation_df.to_csv("evaluation_results.csv", index=False)
+    evaluation_df.to_csv(args.output_file, index=False)
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Evaluate Mintlify agent responses using Anthropic judge model.")
+    parser.add_argument("--input_file", type=str, default="./ProcessedDatasets/english_only_responses.csv",
+                        help="Path to the input processed dataset CSV file.")
+    parser.add_argument("--output_file", type=str, default="evaluation_results.csv",
+                        help="Path to save the evaluation results CSV file.")
+    args = parser.parse_args()
+    main(args)

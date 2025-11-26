@@ -8,7 +8,7 @@ Run the following scripts in order:
 ```shell
 install.sh
 python process_dataset.py --input_file <path_to_input_csv> --output_dir <output_directory>
-python evaluate/evaluate_mint_agent.py
+python evaluate_mint_agent.py --input_file <path_to_input_csv> --output_file <path_to_output_csv>
 ```
 
 Then open and run the notebook `evaluate/analyze_judge_output.ipynb` to explore the results.
