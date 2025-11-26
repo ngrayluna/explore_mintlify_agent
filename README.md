@@ -1,11 +1,17 @@
 # Evaluating Mintlify Agent
 
-Scripts and notebook for processing, exploring, and visualizing responses of Mintlify's agent. These files:
+Scripts and notebook for processing, exploring, and visualizing responses of Mintlify's agent.
 
-## Overview
-1. Process raw CSV file from Mintlify’s dashboard (`process_dataset.py`)
-2. Evaluate Mintlify Agent using Anthropic Judge (`evaluate_mint_agent.py`)
-3. Explore results from judge (`analyze_judge_output.ipynb`)
+## Usage
+Run the following scripts in order:
+
+```shell
+install.sh
+python process_dataset.py --input_file <path_to_input_csv> --output_dir <output_directory>
+python evaluate/evaluate_mint_agent.py
+```
+
+Then open and run the notebook `evaluate/analyze_judge_output.ipynb` to explore the results.
 
 ## Directory
 
