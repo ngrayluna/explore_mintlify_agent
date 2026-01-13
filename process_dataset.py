@@ -9,6 +9,7 @@ Usage:
 """
 import argparse
 import pandas as pd
+from datetime import date
 
 def read_dataset(file_path: str) -> pd.DataFrame:
     """Reads the dataset from a CSV file and returns a DataFrame.
@@ -112,8 +113,9 @@ def main(args):
 
     # Save the processed dataset
     output_dir = args.output_dir
-    processed_df.to_csv(f"{output_dir}processed_mintlify_dataset.csv", index=False)
-    print(f"Processed dataset saved to '{output_dir}/processed_mintlify_dataset.csv'.")
+    date_str = date.today().isoformat()
+    processed_df.to_csv(f"{output_dir}/processed_mintlify_dataset_{date_str}.csv", index=False)
+    print(f"Processed dataset saved to '{output_dir}/processed_mintlify_dataset_{date_str}.csv'.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process Mintlify dataset to remove non-English entries.")
