@@ -1,5 +1,6 @@
 langchain
 langchain-anthropic
 pandas
+seaborn
 tqdm
 pydantic

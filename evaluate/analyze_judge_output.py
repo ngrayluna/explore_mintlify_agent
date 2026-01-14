@@ -29,7 +29,7 @@ def calculate_score_distribution(judge_output_df: pd.DataFrame) -> list[float]:
 
     return [score_percent_3, score_percent_2, score_percent_1]
 
-def pie_chart(score_distribution: list[float]):
+def pie_chart(score_distribution: list[float], timerange: tuple[datetime.datetime, datetime.datetime]) -> None:
     """Generates a pie chart for the score distribution.
     
     Args:
@@ -37,18 +37,25 @@ def pie_chart(score_distribution: list[float]):
     """
     print("Generating score distribution pie chart...")
     labels = ['Score 3', 'Score 2', 'Score 1']
-    colors = sns.color_palette('pastel')[0:3]
-    plt.pie(score_distribution, labels=labels, colors=colors, explode=(0.1, 0, 0), autopct='%1.1f%%')
-    plt.axis('equal')
-    plt.title('Score Distribution')
-    plt.savefig(f'{check_plot_directory()}/score_distribution_pie_chart.png')
+    score_definition = ['Score 3: Excellent', 'Score 2: Good', 'Score 1: Poor'] 
+    
+    fig, ax = plt.subplots(figsize=(6, 3), subplot_kw=dict(aspect="equal"))
+    colors = sns.color_palette('rainbow')[0:3]
+    wedges, texts, autotexts  = ax.pie(score_distribution, labels=labels, colors=colors, autopct='%1.1f%%')
+    ax.legend(wedges, score_definition,
+          title="Score definitions",
+          loc="center left",
+          bbox_to_anchor=(1, 0, 0.5, 1))
+    ax.set_title(f'Score Distribution from {timerange[0].strftime("%Y-%m-%d")} to {timerange[1].strftime("%Y-%m-%d")}', loc='center')
+    plt.tight_layout()
+    plt.savefig(f'{check_plot_directory()}/score_distribution_pie_chart.png', dpi=300)
     plt.close()
 
 
 def check_plot_directory() -> str:
     """Checks if the plot directory exists, creates it if not."""
     date_str = datetime.date.today().isoformat()
-    plot_dir = f'plots/{date_str}'
+    plot_dir = f'Plots/{date_str}'
     if not os.path.exists(plot_dir):
         os.makedirs(plot_dir)
     return plot_dir
@@ -91,7 +98,7 @@ def get_urls(series: pd.Series):
             continue
     return all_urls
 
-def url_reference_plot(urls: list[str], num: int) -> None:
+def url_reference_plot(urls: list[str], num: int, timerange: tuple[datetime.datetime, datetime.datetime]) -> None:
     """Generates a plot for URL references.
     
     Args:
@@ -104,32 +111,45 @@ def url_reference_plot(urls: list[str], num: int) -> None:
     sns.barplot(x=url_counts.values, y=url_counts.index, hue=url_counts.index, legend=False, palette='viridis')
     plt.xlabel('Number of References')
     plt.ylabel('URLs')
-    plt.title(f'Top {num} Referenced URLs')
+    plt.title(f'Top {num} Referenced URLs from {timerange[0].strftime("%Y-%m-%d")} to {timerange[1].strftime("%Y-%m-%d")}')
+    plt.grid(True)
     plt.tight_layout()
-    plt.savefig(f'{check_plot_directory()}/top_referenced_urls.png')
+    plt.savefig(f'{check_plot_directory()}/top_referenced_urls.png', dpi=300)
     plt.close()
 
 
 def main(args):
 
     # Read in processed dataset
-    processed_mintlify_df = read_csv(args.processed_dataset)
+    #processed_mintlify_df = read_csv(args.processed_dataset)
+    processed_mintlify_df = read_csv("../ProcessedDatasets/processed_mintlify_dataset_2026-01-13.csv")
 
     # Read in judge output
-    judge_output_df = read_csv(args.judge_output)
+    #judge_output_df = read_csv(args.judge_output)
+    judge_output_df = read_csv("JudgeResults/evaluation_results_2026-01-13.csv")
 
     # Check the plot directory exists
     check_plot_directory()
 
     # Calculate and plot score distribution
     score_distribution = calculate_score_distribution(judge_output_df)
-    pie_chart(score_distribution)
 
     # Combine processed dataset with judge output
     combined_df = pd.concat([processed_mintlify_df.reset_index(drop=True), judge_output_df.reset_index(drop=True)], axis=1)
 
     # Count the length of each query
     combined_df['query_length'] = combined_df['query'].apply(lambda x: len(str(x).split()))
+
+    # Ensure timestamp column is in datetime format
+    combined_df["timestamp"] = pd.to_datetime(combined_df["timestamp"])
+
+    # Find the time range of the dataset
+    min_timestamp = combined_df["timestamp"].min()
+    max_timestamp = combined_df["timestamp"].max()
+    print(f"Dataset time range: {min_timestamp} to {max_timestamp}")
+
+    # Generate pie chart for score distribution
+    pie_chart(score_distribution, timerange=(min_timestamp, max_timestamp))
 
     # Calculate IQR bounds
     lower_bound, upper_bound = calculate_interquartile_range(combined_df['query_length'])
@@ -142,7 +162,7 @@ def main(args):
 
     # Generate URL reference plot
     top_n = 20
-    url_reference_plot(urls, top_n)
+    url_reference_plot(urls, top_n, timerange=(min_timestamp, max_timestamp))
 
     print(f"Analysis complete. Plots saved in the {check_plot_directory()} directory.")
 

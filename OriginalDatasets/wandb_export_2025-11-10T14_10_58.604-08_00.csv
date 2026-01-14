@@ -1,0 +1,349 @@
+"questions"
+"Hey I have a question about using wandb with fastapi in a prod environment. is it recommended to initialize wandb within a specific route function, ie
+
+`@app.route('/')
+def my_function():
+    wandb.init(...)`
+
+or should i initialize beforehand:
+
+`wandb.init(...)
+@app.route('/')
+def my_function():
+    ...`
+
+I'm getting a long list of log items in the console and many of them are empty"
+"Hey with wandb is it possible to link from the sweep api?
+best_run = sweep.best_run()
+I have the best run but it isn't clear to me how to link through the api. the UI works fine but trying to get the api working also. I have been reading the docs but missing something."
+"I am training a spacy textcat model. This process produces two model directories: model-best and model-last. I am using the config system to train these models and followed your guide online. The training process always adds the last trained model's metrics to the run summary, whereas I am interested in the model-best's summary. How do I log those instead?"
+"Explain how I can version datasets with Weights & Biases. How do I create a new version of a dataset? How does Weights & Biases work with versions? What are some best practices for versioning datasets?"
+"I'm using   env = SubprocVecEnv(
+        [make_env(env_id, i, kwargs=config[""env_kwargs""]) for i in range(num_cpu)])
+How would I record a video for just one of the sub process environments? 
+
+it is wrapped using 
+        env = VecMonitor(VecVideoRecorder(env, ""videos"", record_video_trigger=lambda x: x %
+                         video_frequency*num_cpu == 0, video_length=video_length))
+
+my wandb init is run = wandb.init(
+    project=""sb3"",
+    config=config,
+    sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
+    monitor_gym=True,  # auto-upload the videos of agents playing the game
+    save_code=True,  # optional
+)"
+"Hi, can anybody help me with this issue? wandb.sdk.service.service.ServiceStartTimeoutError: Timed out waiting for wandb service to start after 30.0 seconds. Try increasing the timeout with the `_service_wait` setting. I have tried to set 300 seconds, reinstalled wandb as well. but I still get this error"
+"what is the difference between artifact.add_file and wandb.save"
+"Hi I have created an academic team, however I don't have admin rights in my own group and cannot access admin features at all"
+"How can I add prediction-related data to a W&B run days after my training run (i.e. not in the same process/moment that I did the training)? Is it possible to link prediction data to an external tool such as BigQuery and still get rich visualizations in W&B?"
+"On my laptop, wandb is configured to log in to my company's wandb. However, I want to use my personal wandb account for my personal projects. Even after wandb login --relogin, it will still try to go to company.wandb.ai instead of api.wandb.ai. How can I solve this?
+
+Even better, is there a good way to handle two wandb accounts? I cannot give details about how I set my company wandb."
+"is it possible to have the IoU for each category and not the average IoU with Weights & Biases?"
+"When executing a sweep offline, if the log is not uploaded in a timely manner, the program will re execute the previously searched parameters.How to solve this problem?"
+"I want to add a new columns to a wandb.Table with an operation involving other columns, what operations can I use and how to actually do this?"
+"Hey there, I just recently starting using the `WANDB_WATCH=""all""` environment variable and I'm trying to find an intelligent way of viewing all these different values on the dashboard. Is there some type of high-level view? In particular I'd like to see how gradients/activations vary across layers for the `llama` model. How do I see outliers across the model weights? Are there any references/examples that you could point me to?"
+"Wandb ignores --configs flag when running training script. Running a script I want to specify what config YAML to use. The documentation states you can specify what configuration file to load using the `--configs` flag, however running
+
+`python myscript.py --configs new-configs.yaml`
+
+on the following script
+
+`import wandb
+wandb.init()
+print(wandb.config)`
+
+I can see that the configuration contained in `config-defaults.yaml` is being loaded instead. Why is this happening?"
+"how long does it take for W&B to review the project assignment of the ""Building LLM-Powered Apps"" course?"
+"how can I learn to build a chatbot for 100s of academic research articles and books?"
+"Hello, I am trying to save the gradients as I would with WandbCallback, but with a custom callback:
+Is this correct?
+
+class GradientClipperCallback(tf.keras.callbacks.Callback):
+    def __init__(self, model):
+        self.model = model
+
+    def on_epoch_end(self, epoch, logs=None):
+        trainable_vars = self.model.trainable_variables
+        with tf.GradientTape() as tape:
+            y_pred = self.model(self.model.inputs, training=False)
+
+        gradients = tape.gradient(y_pred, trainable_vars)
+        
+        wandb.log({""gradients"": gradients}, step=epoch)"
+"I want to submit a wandb Report to a conference, can I somehow anonymize the datA?"
+"i am trying to figure out the best way to organize/name/group my wandb runs when doing hyperparam tuning with cross-validation.
+
+ideally, i'd like to be able to see the average score across all the runs that are part of a CV set. and then see the best CV score across the whole hyperparam sweep. (i am using optuna, not wandb, to manage the hyperparam sweep)
+
+is there a recommended approach for this?"
+"is there a good way to join 2 tables together programmatically?"
+"how do you handle memory for multiple users in a chat application?"
+"how do I see all the tokens consumed by a particular llm model."
+"can you tell why this error occurred while uploading the training results to the server:
+wandb: ERROR Error while calling W&B API: run lee086824/Graduate_Project/4iolqdaz was previously created and deleted; try a new run name (Response [409]>)"
+"why am I getting a table instead of confusion matrix chart using     wandb.log({""confusion_matrix_normalized"": wandb.plot.confusion_matrix(
+        y_true=y_test,
+        probs=y_probas,
+        class_names=text_labels
+    )})"
+"If Weights & Biases server is not open source, what is the content of the repo https://github.com/wandb/server ?"
+"what is an example demo of how to run wandb sweeps with hugging face transformers? At some point the wandb_config and the run arguments have to merge so to execute the hf run correct. And I assume if report_to='wandb' is needed for the trainer to call the wandb.init() properly (or the need to call it manually)."
+"Do you know where the API key is saved and how can I delete it?"
+"How can I store data versions of large datasets using artefacts and tables? Such as millions of videos?"
+"In my code i am running the following line:
+```
+returns = [self._rollout(policy, self.evaluation_environment, update_normalization=False)[0] for _ in range(num_runs)]
+```
+for evaluation purposes. Where _rollout performs a rollout of the environment and returns a tuple containing the return and the length of the episode. Policy is nn.module wrapped into a lambda function to handle conversion between numpy and torch. Update normalization is not important here.
+The unwrapped policy module has been passed to the wand watch function.
+Now when i run this loop with num_runs <= 3 it works as intended but when I run it with a higher value i get the following error:
+```
+Traceback (most recent call last):
+  File ""<string>"", line 1, in <module>
+  File ""<string>"", line 1, in <listcomp>
+  File ""/home/sebastian/git/chaos_rl/src/chaos_rl/reinforcement_learning/environment_handler.py"", line 164, in _rollout
+    action = policy(obs).reshape(environment.action_space.shape)
+  File ""/home/sebastian/git/chaos_rl/src/chaos_rl/utils/util.py"", line 13, in <lambda>
+    return lambda _input: tensor_to_numpy(module(numpy_to_tensor(_input, device=device)))
+  File ""/home/sebastian/git/chaos_rl/env/lib/python3.10/site-packages/torch/nn/modules/module.py"", line 1547, in _call_impl
+    hook_result = hook(self, args, result)
+  File ""/home/sebastian/git/chaos_rl/env/lib/python3.10/site-packages/wandb/wandb_torch.py"", line 110, in <lambda>
+    lambda mod, inp, outp: parameter_log_hook(
+  File ""/home/sebastian/git/chaos_rl/env/lib/python3.10/site-packages/wandb/wandb_torch.py"", line 105, in parameter_log_hook
+    self.log_tensor_stats(data.cpu(), ""parameters/"" + prefix + name)
+  File ""/home/sebastian/git/chaos_rl/env/lib/python3.10/site-packages/wandb/wandb_torch.py"", line 256, in log_tensor_stats
+    wandb.run._log(
+AttributeError: 'NoneType' object has no attribute '_log'
+```
+Why is that?"
+"I am trying to execute    wandb.run = wandb.init(project=params.WANDB_PROJECT, entity=params.ENTITY, job_type=""upload"", name=""01_EDA"")
+using Visual Studio Code and I get following message    Failed to detect the name of this notebook, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable to enable code saving.
+wandb: You can find your API key in your browser here: http://localhost:8080/authorize
+wandb: Paste an API key from your profile and hit enter, or press ctrl+c to quit:
+But there is no place to enter the API key.."
+"Write Python code to loop through all Tables within a run and download each table directly to a Pandas DataFrame"
+"can you handle retrieving private documents in a SOC2 compliant way ?"
+"how to make runs in a sweep parallel"
+"Can I copy runs from one project from a team to another non-team project from? I can see all the runs in my wandb folder but I don't know how to sync those runs to another project.
+I need this because I have used all free tracked hours provided by weights and biases for the team entity and now I wish to transfer those runs to my personal project. There is an option for moving those runs as mentioned here (https://docs.wandb.ai/guides/runs/manage-runs) using GUI, but now I can not access those runs as I am being redirected to billing page because of using all the tracked hours."
+"In the manage columns graphical user interface on the W&B run page, I can't move a hidden column to the visible column. Why?"
+"I'm getting Internal Server Error for url: https://api.wandb.ai/graphql when trying to download an artifact with the following code 
+```
+processed_data_at = run.use_artifact(f'{params.PROCESSED_DATA_AT}:latest')
+processed_dataset_dir = Path(processed_data_at.download())
+```"
+"do you support yolov5? how can i log COCO bounding boxes?"
+"I have the following code, which finds a sweep by the sweep's display name and then gets the runs associated with it.
+```
+def get_sweeps_by_sweep_name(entity, project, sweep_name, require_unique = True):
+    sweep_ids = []
+    for sweep in api.from_path(f""{entity}/{project}"").sweeps():
+        if sweep.name == sweep_name:
+            sweep_ids.append(sweep.id)
+    if require_unique == True and len(sweep_ids) > 1:
+        raise ValueError(""There are multiple sweeps with the same name"")
+    return sweep_ids # singular if require_unique == True
+
+def get_runs_by_sweep_name(entity, project, sweep_name):
+    sweep_ids = get_sweeps_by_sweep_name(entity, project, sweep_name, require_unique = True)
+    return api.runs(f""{entity}/{project}"", filters={""sweep"": sweep_ids[0]})
+
+# call with
+sweepruns = get_runs_by_sweep_name(""MYENTITY"", ""MYPROJECT"", ""MYRUNNAME1"")
+```
+
+Is there a better way to do this, maybe with just a single filter?"
+"Hello, what are you and how can you help me?"
+"I am looking for a way to plot the max/min of a metric as opposed to the latest. A bit of more context, I have a sweep and I want to see the best accuracy independently where it happened. I could have logged it on every step (but I didnt) and I was wondering if there's a way to query the max of the history and put it in a plot directly in the web interface"
+"""How would various factors influence the complexity and design of the technology required to operate a hypothetical 'prison planet' system, and how might the prioritization or importance of these factors introduce biases into the system?"""
+"can you provide a bit more clarity on the difference between setting `resume` in `wandb.init` to `allow` vs. `auto`?
+
+I guess the difference has to do with whether the previous run crashed or not. I guess if the run didn't crash, `auto` may overwrite if there's matching `id`?"
+"I need some help with run resuming, does it automatically use the last saved checkpoint artifact model? How do i get my run resuming to start at the same place it ended? Right now its starting from epoch 1 every time."
+"How do you create a W&B job passing the hydra config to be overridden when launched in AWS Sagemaker?"
+"I have a question about sweeps. How can you constrain relationship between parameters. For example, I now that if `num_layers * hidden_dim` is large, I'll run out of GPU memory. So, also I would like to explore some hyperparameter space, there are some combination I know will fail. `optuna` as a way to do that: you can throw an special exception to cancel a run during a sweep, so that it is not recorded. Is there something similar in W&B, or another way of pruning unwanted combination of hyperparameters?"
+"when using bayesian optimizer for sweep is it best to log the optimized metric only once (at the end of the training) or is it ok to log it throughout the training?"
+"How can I link the run to model registry? How can I use the best run to do that?"
+"how can I use regex to search for all runs EXCEPT those containing a certain string, negative look-arounds such as ^((?!notthisrun).)*$ do not seem to work"
+"Hi! I have a question regarding artifacts. I have deleted the data artifacts i've uploaded previously on wandb UI. I have uploaded new data. but seems like while using the new data artifacts (image paths) for future use, wandb is somehow returning the previously deleted paths."
+"can I log image data with more than the standard 3 or 4 channels? How do I view it later online?"
+"how to i download and concat every version of a Table thats been logged to artifacts?"
+"Can I download a model from W&B artifact without a W&B API key?"
+". I'm using a free account. How can I share the my existing personal project with others?  Your past instruction ""Move your personal project to the team by going to the project's settings page and changing the ""Owner"" to the team you created."" didn't work. Actually, I could not find the bottom. Could you please show me the way of sharing my existing project with others step by step?"
+"Hello, I was able to run and automatically upload my results to wandb yesterday but is unable to do this today (received error of Network error(ReadTimeout). Then i tried the wandb offline command and ran my codes successfully, but encountered Network error (ConnectTimeout) while trying to sync it to wandb online (this was a few hours later since the ReadTimeout error appeared). Was wondering what is the issue here...can anyone help?"
+"what firewall addresses and ports are needed to use wandb?"
+"I have a question about exporting CSV files from a web panel. Whenever I do this, I always get two extra columns for MAX and MIN values, even if I only have one data curve. Does anyone know how to solve this issue?"
+"how can I integreate pg vector with langchain"
+"I'd like to attach some images to my experiment run. I generate the images on a different host machine, but using the outputs of the current training run. How can I get this host machine to log images to the run that is happening on a different machine? I was thinking about sharing the run_id, but the docs seem to warn against this and recommend using groups. Groups seem like overkill for just needing to post images to the same run. Any suggestions?"
+"how would i pass the trained model name as metadata wandbtracker which is the module used in my training script, so that i can pass it accelerate launch args?"
+"How can I stop a run in the web interface? I guess there's something strange in my situation. Even this document says I should be able to stop it in the kebop menu, but when I open it, there's no ""Stop run"" option. The same is in the details of the run. See the screenshots. I'm trying to stop it in the web interface because calling wandb.finish() doesn't succeed for some reason (it just waits for minutes and minutes, never finishing, see another screenshot). This all happens in a pretty simple notebook - actually the one from Derek's LLM course. So I guess everything should be all right there. But it's strange the ""Stop run"" button is nowhere to be found."
+"This is a very quick and basic question, that I don't think it even qualifies as ""support"": In the Runs view / Workspace, what button do we push to hide the sidebar with the list of all the run names?  I'm on my iPad and I need more screen real estate to see my graphs.  (If I were on desktop I could grab the boundary of the sidebar and move it, but on mobile that's not an option)"
+"I am new to wandb and am just trying to get started. The full blown courses are a bit to hefty for me so i just looked for some quick tutorial of the basic functionalities. 
+I am already failing at the .init function. When calling
+```
+wandb.init(project='test')
+```
+I get the following error:
+```
+Problem at: /tmp/ipykernel_11856/3188084774.py 1 <module>
+
+Traceback (most recent call last):
+  File ""/home/sebastian/scripts/wandb tutorial/env/lib/python3.10/site-packages/wandb/sdk/wandb_init.py"", line 1144, in init
+    run = wi.init()
+  File ""/home/sebastian/scripts/wandb tutorial/env/lib/python3.10/site-packages/wandb/sdk/wandb_init.py"", line 773, in init
+    raise error
+wandb.errors.CommError: Error communicating with wandb process, exiting...
+For more info see: https://docs.wandb.ai/guides/track/tracking-faq#initstarterror-error-communicating-with-wandb-process-
+wandb: ERROR Abnormal program exit
+```
+How can i resolve this?"
+"What is the most minimal machine I can use to run Weights and Biases local server? Can I somehow use my old Xbox if I break it apart for its pieces"
+"Facing the following error ```Error in WandbTracer.on_retriever_start callback: retriever \n Error in WandbTracer.on_retriever_end callback: No retriever Run found to be traced``` when running the command ```retriever.get_relevant_documents(query)```"
+"Why is  wandb: | 0.028 MB of 0.028 MB uploaded being repeat displayed on my terminal? How can i stop this?"
+"how do i delete all data associated with a specific personal account?"
+"what does this error indicate: AttributeError: 'WandbLogger' object has no attribute 'log_image'? I'm using Wandb logger to log some images inside the validation step of my model. Here is the code that I have used:
+
+`if batch_idx % 100 == 0:
+    grid = torchvision.utils.make_grid(front_img)
+    imgs = [i for i in front_img[:8]]
+    wandb_logger.log_image(key='front_image', image=imgs)`
+
+When I remove this line Wandb logs all the other parameters.
+
+But when I tried to log the images i get the error indicated above. The documentation says there is a `log_image `attribute in `WandbLogger`."
+"can you tell me about Fine-tuning Techniques for LLMs"
+"can you give me a suggestion of how to logged named entity recognition values?"
+"My runs table went wrong. It showed ""There was a problem rendering these panels. Click this button to reset your workspace to the default layout. This preserves runs, but custom charts will be lost."" I clicked the button ""Reset my workspace"" It didn't work, specifically, nothing happened. I cannot take a look at my tables now. How to solve this problem?"
+"when inserting wandb config and log code into python training script, at what point in the training code should i place the wandb.finish() code?"
+"how can I save codes into artifacts? I have tried the methods offered here:
+https://docs.wandb.ai/guides/app/features/panels/code
+https://docs.wandb.ai/ref/python/run#log_code
+But I can only save codes from the file calling `wandb.init()`, I still cannot save other files. Is there a case to show how to really do this?"
+"Is it possible to embed a Weights & Biases plot inside a webpage without using a report?"
+"I have a question related to W&B, but I'll only understand the answer if it is in the form of a poem. Please help me. Explain W&B 'sweeps' in a short poem."
+"You need to tag wandbot in order to receive a response:
+
+I run jupyter notebook on a remote server, with an ssh tunnel in order to access it from localhost. I installed weave on the kernel (pip install weave) and it imports successfully (import weave) but when trying to use it (weave.show(df)) I get the default error page ""localhost refused to connect."" I tried to add ports 9994, 9004 and 3000 to the tunnel but it didn't solve the issue"
+"I am looking to finetune LLAMA on my own dataset using OpenAI, can you give me examples on how to do this?"
+"If `wandb.markdown` is an actual method like you say, then why do I get the error ""`AttributeError: module 'wandb' has no attribute 'markdown'`""?"
+" Is there any way to block the ""only fetch these keys, and only fetch rows that have all of keys defined"" -behaviour of scan_history such that all rows are returned, even if not all keys are defined in a certain row?"
+"How do I authenticate with W&B when doing training  on a cloud service? Does every user using the service to train have to authenticate personally even when we have a team account? Only the training code runs on the cloud server, the user is not logged in to the server machines. The user only uses a client application to initiate the training. How will the server authenticate?"
+"How do I specify what dir to cache artifacts?"
+"I would like to finish a run and remove all hooks that may be attached to my torch modules and remove any other affects that wandb might still has on my code after calling wand.finish(). How do i do that?"
+"What is the biggest news in the world that happened today?"
+"how do I fix an error with wandb Table construction from pandas dataframe: TypeError: Data row contained incompatible types"
+"I am logging a some metrics using wandb.log method and I have runs grouped by Group. Within that group each run has the metrics logged. While analyzing the runs in the table format on the UI previously before some days it would show average metric of the runs within the group next to the group name, but it's showing basically nothing now. Has anything changed in wandb ?"
+"what is a weave query expression that can calculate the median of a column of numbers in a wandb Table"
+"what is this error from     assert record.control.req_resp"
+"Can you explain a little bit about Quantization when it comes to Large Language Models?"
+"what is the benefit of wandb compared to MLFlow? Explain it to me like I am five years old."
+"I started the Sweep on one machine, that is logged into a certain wandb account. I saved the sweep_id, and passed it on to another wandb account which also tried to run the same Sweep. I do this because I want multiple machines to run the same Sweep to aggregate their results. However, when trying to run the same Sweep as the first machine on the second with the set sweep_id, I get the error: 
+
+'wandb.errors.UsageError: could not find project project-name/uncategorized during createAgent'"
+"how should a project setup look like for a team that uses W&B for experiment tracking and artifacts and now want to use LLMs in the same project. What are best practices?"
+"example of login and authentication with sagemaker estimator train step"
+"I want to download the plots I see in the web UI. Is there a way to reference a plot in python and get a pdf or eps directly instead?"
+"
+I'm getting `Artifact <artifact_name> already exists with type <old_type>; cannot create another with type <new_type>` although I deleted the <artifact_name> with the <old_type> in the UI and I can't see it any more. what else do I need to do to be able to create an artifact with the same name but the other type?"
+"I really like the random names generated by wandb for every new run, however I mostly deal with grouped runs (for kfold training). Although we can name the groups using a custom name, is it possible to use the same engine that wandb uses for naming the runs, to name the groups instead."
+"i am using  init_kwargs with accelerator for main process in my training network script. how can i track notes in the accelerate launch args?"
+"I have reproduced this error with Tensorflow 2.12 and 2.13 and wandb 0.15.4 and 0.15.5. In the case where the following two conditions hold,
+
+wandb is imported before tensorflow and
+A function decorated with @tf.function calls another function also decorated with @tf.function,
+the following error occurs when running code from a Python script:
+
+`[libprotobuf FATAL google/protobuf/message_lite.cc:353] CHECK failed: target + size == res: 
+libc++abi: terminating with uncaught exception of type google::protobuf::FatalException: CHECK failed: target + size == res: 
+zsh: abort      python mfe.py`
+
+Running from a Jupyter notebook the kernel simply crashes without an error message.
+
+Removing the inner @tf.function or changing the order of imports resolves this error.
+
+Here is a MFE:
+
+`import wandb # switch order of imports to toggle error
+import tensorflow as tf
+
+@tf.function # comment this out to toggle error
+def custom_score(data):
+    pass
+
+data = tf.random.uniform((100, 20, 24, 2), 0, 1)
+train = tf.data.Dataset.from_tensor_slices(data).batch(50)
+
+@tf.function
+def train_step(data):
+    custom_score(data)
+        
+tf.config.run_functions_eagerly(False)
+tf.print(""Start training"")
+train_step(next(iter(train)))
+tf.print(""Runs finished without error."")`
+
+Could someone please enlighten me as to what is going on here. This error also occurs when calling an @tf.function function from a keras model's train_step() function, I assume because it is also an Autograph function. It is impractical for me to run custom_score() eagerly as it massively slows down training times."
+"i think i might have a bug with logging distributed training, how can I do it with wandb?"
+"Explain in detail how can I use wandb to train a LLM and is there any way to log prompts keeping them compatible with tools like LangChainAI, OpenAI, Huggingface Transformers, etc."
+"who does weights and biases sell to?"
+"What production-grade features are not available in a free personal license for W&B server?"
+"how does Weights & Biases know that the actual dataset in S3 has not changed even though the version of the object has been updated in S3, thereby preventing Weights & Biases from creating a new version of the artifact ?"
+"how would I be able to use the requests library in python to do the same thing?"
+"How can you add weights & biases to classification/object detection using Tensorflow Model Maker?"
+"where can I find a schema for the yaml or json definition of a sweep plan"
+"In Prompts, how can I resize the Trace Timeline to make it bigger or full screen?"
+"please explain the use of datum when constructing custom charts. I would like an explanation of when to explicitly use `datum` in custom charts. The custom line chart provided by wandb uses datum."
+"I try to create a table with the columns ['full_path', 'audio', 'speaker_ID', 'sentence', 'label' ]. Everything works fine, but the problem is that I have around 8k audiofiles. 
+I work using google colab, and during the process of the table creation (around half of the process duration) the system crashes - not enough RAM (12 Gb). Seems like it firstly loads all audio into the RAM and only then uploads it to the W and B.  if it is already more than 12 Gb in RAM, the final table on the W and B will be the same size then?"
+"How can I log my results in my team profile and not in my personal profile?"
+"The movement is choppy when I drag either horizontally or vertically the wandb table. It seems that it takes a long time loading blocks of data. Is there a way to accomodate this?"
+"I am encountering issues with using sweep. The dev_loss variable over which I want to fine tune my hyperparameters does not appear in the dashboard (or is considered as null) but I checked in my code that it is neither null nor nan and it has the correct type float."
+"How do I set a different project name and run name with the huggingface trainer api? Currently it all goes into project huggingface and random names. If I init before the trainer it creates two seperate runs."
+"Is there an integration with PyTorch? Can you show me an example?"
+"During the sweep, I want to obtain a box plot for each individual run. After a couple of runs (or at the end of a sweep) i want to view all of the box plots in the same figure so i can compare between the hyper-parameter. How can I do that?"
+": Can you give me an example of how to run wandb sweeps with the LightningCLI ?"
+"what are good practices for optimizing tracking of large data volumes?"
+"how to i create the weights and biases logo in ascii art?"
+"I've used the following code to log a metric
+
+`wandb.log({'metric': [4, 5, 6]})`
+
+but then found out that Wandb doesn't support plotting a list by default. I want to create a line plot where the y-axis is the first element of the metric array, and the x-axis is the step.
+
+I've read the Custom Charts section of the document. I think I should use Vega to access the first element of the array. Here are the steps that I've taken: For the custom chart, I've set the data source as 'history' and selected the 'metric' key.
+
+`query {
+    runSets
+         (runSets: '${runSets}' ) {
+            id
+            name
+            history
+                (keys: ['metric' ] )
+        }
+}
+In the Vega script, I tried to flatten the array, using this part of the documentation
+
+'transform': {
+    ...
+    {'type': 'flatten', 'fields': ['${field:metric}']},
+}`
+This gives me a warning that 'type' and 'fields' arguments are not allowed, which means I should include this flattening block somewhere else (not in the transform section). I'm afraid I don't know where, and how I can achieve this. Is this even possible? If not, I think in my notebook I should write a script that accesses the wandb.run log data, and transform the data for each run. if so, any tips for that solution is also appreciated."
+"Is it possible to host mlflow inside a Weights & Biases run?"
+"Compare W&B to Comet, Neptune, and MLFlow"
+"How can I log molecules to W&B? Is there any limitation of logging molecules to W&B?"
+"I want to create my own integration to properly track the outputs of a NLP large language model. How can I make it automatically log for me in a single line of code"
+"do you have an example of wandb being used to benchmark different models for speed and accuracy?"
+"Can we start multiple long-running WANDB runs at the same time, withinin the same project?"
+"is there a simple way to overwrite artifact? If i run 300 epoch it will consume all my storage."
+"For distributed parallel runs, how can I get the `run_id` when I'm on a process other than RANK 0?"
+"what's the best way to log or save the text of a URL, in a way that will be *actually* clickable to users visiting their wandb runs website?  (i.e. so they don't have to highlight it first)    I want to log a (password protected) Gradio url to control my run, and have it be clickable?
+
+Earlier you suggested code like `wandb.log({""gradio_link"": wandb.Html(f'<a href=""{url}"" target=""_blank"">Gradio URL</a>')})`, and that does produce a link -- it creates it as a Media object.   The link is colored blue and is underlined like a normal link.  But it is not clickable.  Something in the Wandb website prevents anything from happening when I try to click on it.  Instead I have to right-click and select ""Open in New Tab"". 
+How can we make it so the link is clickable in the usual sense?"
+" I am using the Hugging Face trainer to train a GPT-2 model. How can I log in wandb an example of what the model generates in each evaluation while training using the Trainer?"
+"how can i use the method add_named_result over a specific trace_tree that was initiatied by WandTracer ?"
+"How to export a single chart's data using the API?"
+"How do I get an artifact's metadata without downloading the artifact ?"
+"How do I run multiple instances of a sweep across multiple GPUs, note that I didn't configure the sweep through a yaml file."
