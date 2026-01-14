@@ -17,8 +17,8 @@ EVALUATION_FILENAME=evaluation_results_2026-01-13.csv
 
 #echo "Evaluating dataset located at: $PROCESSED_DATASET_DIR/$PROCESSED_DATASET_FILENAME"
 
-#python ./evaluate/evaluate_mint_agent.py --input_file $PROCESSED_DATASET_DIR/$PROCESSED_DATASET_FILENAME --output_file $PROCESSED_DATASET_DIR/$EVALUATION_FILENAME
+#python ./Evaluate/evaluate_mint_agent.py --input_file $PROCESSED_DATASET_DIR/$PROCESSED_DATASET_FILENAME --output_file $EVALUATION_RESULTS_DIR/$EVALUATION_FILENAME
 
 # echo "Generating plots..."
 
-#python ./Evaluate/analyze_judge_output.py --processed_dataset $PROCESSED_DATASET_DIR/$PROCESSED_DATASET_FILENAME --judge_output $EVALUATION_RESULTS_DIR/$EVALUATION_FILENAME
+#python ./Evaluate/judge_results_stats_plots.py --processed_dataset $PROCESSED_DATASET_DIR/$PROCESSED_DATASET_FILENAME --judge_output $EVALUATION_RESULTS_DIR/$EVALUATION_FILENAME
