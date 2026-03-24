@@ -1,0 +1,7 @@
+PROCESSED_DATASET_DIR=ProcessedDatasets
+PROCESSED_DATASET_FILENAME=processed_mintlify_dataset_2026-01-13.csv
+
+EVALUATION_RESULTS_DIR=Evaluate/JudgeResults
+EVALUATION_FILENAME=evaluation_results_2026-01-13.csv
+
+python ./Evaluate/judge_results_stats_plots.py --processed_dataset $PROCESSED_DATASET_DIR/$PROCESSED_DATASET_FILENAME --judge_output $EVALUATION_RESULTS_DIR/$EVALUATION_FILENAME

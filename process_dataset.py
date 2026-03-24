@@ -9,6 +9,7 @@ Usage:
 """
 import argparse
 import pandas as pd
+from datetime import date
 
 def read_dataset(file_path: str) -> pd.DataFrame:
     """Reads the dataset from a CSV file and returns a DataFrame.
@@ -64,7 +65,7 @@ def remove_empty_sources(df: pd.DataFrame) -> pd.DataFrame:
         df (pd.DataFrame): Input DataFrame.
     """
     filtered_df = df[
-        df["sources"].notna() & (df["sources"].str.strip() != "[]")
+        df["sources"].notna() & (df["sources"].astype(str).str.strip() != "[]")
     ].copy()
 
     return filtered_df
@@ -112,12 +113,13 @@ def main(args):
 
     # Save the processed dataset
     output_dir = args.output_dir
-    processed_df.to_csv(f"{output_dir}processed_mintlify_dataset.csv", index=False)
-    print(f"Processed dataset saved to '{output_dir}/processed_mintlify_dataset.csv'.")
+    date_str = date.today().isoformat()
+    processed_df.to_csv(f"{output_dir}/processed_mintlify_dataset_{date_str}.csv", index=False)
+    print(f"Processed dataset saved to '{output_dir}/processed_mintlify_dataset_{date_str}.csv'.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process Mintlify dataset to remove non-English entries.")
-    parser.add_argument("--input_file", type=str, default="./OriginalDatasets/chat-export-wb-21fd5541-2025-10-15T24_00_00-2025-11-13T24_00_00.csv",
+    parser.add_argument("--input_file", type=str, default="./OriginalDatasets/chat-export-wb-21fd5541-2026-02-02T24_00_00-2026-02-27T24_00_00.csv",
                         help="Path to the input Mintlify dataset CSV file.")
     parser.add_argument("--output_dir", type=str, default="./evaluate/ProcessedDatasets",
                         help="Directory to save the processed dataset.")
