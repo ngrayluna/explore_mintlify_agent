@@ -65,7 +65,7 @@ def remove_empty_sources(df: pd.DataFrame) -> pd.DataFrame:
         df (pd.DataFrame): Input DataFrame.
     """
     filtered_df = df[
-        df["sources"].notna() & (df["sources"].str.strip() != "[]")
+        df["sources"].notna() & (df["sources"].astype(str).str.strip() != "[]")
     ].copy()
 
     return filtered_df
@@ -119,7 +119,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process Mintlify dataset to remove non-English entries.")
-    parser.add_argument("--input_file", type=str, default="./OriginalDatasets/chat-export-wb-21fd5541-2025-10-15T24_00_00-2025-11-13T24_00_00.csv",
+    parser.add_argument("--input_file", type=str, default="./OriginalDatasets/chat-export-wb-21fd5541-2026-02-02T24_00_00-2026-02-27T24_00_00.csv",
                         help="Path to the input Mintlify dataset CSV file.")
     parser.add_argument("--output_dir", type=str, default="./evaluate/ProcessedDatasets",
                         help="Directory to save the processed dataset.")
