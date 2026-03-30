@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Usage: ./get_responses.sh DATE_FROM DATE_TO OUTPUT_JSON
-
+# Where DATE_FROM and DATE_TO are in the format YYYY-MM-DD
 set -euo pipefail
 
 MINTLIFY_TOKEN="${MINTLIFY_TOKEN:?Set MINTLIFY_TOKEN first}"
