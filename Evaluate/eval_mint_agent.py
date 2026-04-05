@@ -226,6 +226,7 @@ def main(args):
         max_retries=3
     )
 
+    print(f"Evaluating {data.shape[0]} entries...")
     # Evaluate each entry
     evaluation_results = []
     for index, row in data.iterrows():
@@ -249,6 +250,7 @@ def main(args):
         evaluation_results.append(result)
     
     # Save results to CSV
+    print(f"Saving evaluation results to {args.output_file}...")
     evaluation_df = pd.DataFrame([r.dict() for r in evaluation_results])
     evaluation_df.to_csv(args.output_file, index=False)
 
