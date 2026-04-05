@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Usage: ./json_to_csv.sh INPUT_JSON OUTPUT_CSV
+
 set -euo pipefail
 
 INPUT_JSON="${1:?Usage: $0 INPUT_JSON OUTPUT_CSV}"

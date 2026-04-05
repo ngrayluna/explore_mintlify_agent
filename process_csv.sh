@@ -1,10 +1,13 @@
 #!/bin/bash
+# Usage: ./process_csv.sh RAW_CSV_FILENAME
 
-RAW_CSV_DIR=OriginalDatasets
-RAW_CSV_FILENAME=mintlify_conversations.csv
+set -euo pipefail
 
-PROCESSED_DATASET_DIR=ProcessedDatasets
+CSV_FULL_PATH="${1:?Usage: $0 CSV_FULL_PATH}"
+PROCESSED_DATASET_DIR="${2:?Usage: $0 CSV_FULL_PATH PROCESSED_DATASET_DIR}"
 
 echo "Processing dataset..."
 
-python process_dataset.py --input_file $RAW_CSV_DIR/$RAW_CSV_FILENAME --output_dir $PROCESSED_DATASET_DIR
+python process_dataset.py \
+    --input_file $CSV_FULL_PATH \
+    --output_dir $PROCESSED_DATASET_DIR
