@@ -40,19 +40,23 @@ Filters out non-English entries, empty fields, entries without sources, and sing
 python process_dataset.py --input_file <path_to_input_csv> --output_dir <output_directory>
 ```
 
-Or use the wrapper script with default paths:
+### 4.Evaluate the results
 
-```shell
-bash process_csv.sh
+Specify the processed CSV file as the input file and provide a name for reuslting CSV file.
+
+```python
+python evaluate_mint_agent.py --input_file <path_to_input_csv> --output_file <path_to_output_csv>
 ```
 
-### 4. Evaluate and plot
+### 5. Make plots
 
-```shell
-bash eval_make_plots.sh
+Make plots from the results:
+
+```python
+python judge_results_stats_plots.py \
+  --processed_dataset path/to/processed_mintlify_dataset.csv \
+  --judge_output path/to/judge_output.csv
 ```
-
-This runs the judge evaluation and generates plots from the results.
 
 ## Directory
 
@@ -61,8 +65,6 @@ This runs the judge evaluation and generates plots from the results.
   * `get_responses.sh` — Fetch conversations from the Mintlify API
   * `json_to_csv.sh` — Convert Mintlify JSON export to CSV
   * `process_csv.sh` — Wrapper script to run `process_dataset.py` with default paths
-* `eval_make_plots.sh` — Run evaluation and generate plots
-* `make_plots.sh` — Generate plots from existing evaluation results
 * `install.sh` — Install dependencies and set up directories
 * `OriginalDatasets/` — Raw conversation data (CSV and JSON exports)
 * `ProcessedDatasets/` — Cleaned and filtered datasets

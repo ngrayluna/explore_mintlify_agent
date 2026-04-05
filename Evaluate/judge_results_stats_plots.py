@@ -1,3 +1,5 @@
+# Usage: python judge_results_stats_plots.py --processed_dataset path/to/processed_mintlify_dataset.csv --judge_output path/to/judge_output.csv
+
 import os
 import argparse
 import datetime
