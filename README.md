@@ -66,7 +66,6 @@ python judge_results_stats_plots.py \
   * `json_to_csv.sh` — Convert Mintlify JSON export to CSV
   * `process_csv.sh` — Wrapper script to run `process_dataset.py` with default paths
 * `install.sh` — Install dependencies and set up directories
-* `OriginalDatasets/` — Raw conversation data (CSV and JSON exports)
 * `ProcessedDatasets/` — Cleaned and filtered datasets
 * `Evaluate/` — Evaluation results
 * `Plots/` — Generated visualizations
